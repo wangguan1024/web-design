@@ -1,24 +1,19 @@
 package com.hhuc.webdesign;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.hhuc.webdesign.dao.ArticleDao;
-import com.hhuc.webdesign.dao.UserDao;
+import com.hhuc.webdesign.mapper.ArticleMapper;
 import com.hhuc.webdesign.entity.Article;
 import com.hhuc.webdesign.entity.User;
 import com.hhuc.webdesign.entity.UserRole;
+import com.hhuc.webdesign.service.ArticleService;
 import com.hhuc.webdesign.service.RoleService;
 import com.hhuc.webdesign.service.UserRoleService;
 import com.hhuc.webdesign.service.UserService;
 import org.json.JSONException;
-import org.json.JSONObject;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.crypto.password.Pbkdf2PasswordEncoder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,17 +30,8 @@ class WebDesignApplicationTests {
     RoleService roleService;
 
     @Autowired
-    ArticleDao articleDao;
+    ArticleMapper articleMapper;
 
-    @Test
-    void contextLoads() throws JSONException {
-        Article article = new Article();
-        article.setTitle("test_title");
-        article.setContent("hello world");
-        article.setOverview("hewo");
-        article.setUserId(1);
-        articleDao.insert(article);
-    }
 
     @Test
     void test(){
@@ -62,6 +48,16 @@ class WebDesignApplicationTests {
             authorityList.add(new SimpleGrantedAuthority(roleName));
         }
         System.out.println(authorityList);
+    }
+
+    @Autowired
+    ArticleService articleService;
+    @Test
+    void ArticleServiceTest(){
+        Article article = new Article();
+        article.setTitle("test1");
+        article.setOverview("hhh");
+        article.setContent("ooo");
     }
 
 }

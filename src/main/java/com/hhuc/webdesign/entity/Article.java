@@ -20,7 +20,5 @@ public class Article {
 
     @TableField(fill = FieldFill.INSERT_UPDATE)
     private Date timeStamp;
-
-    private Integer userId;
     private String userName;
 }

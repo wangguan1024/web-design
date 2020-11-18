@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:mysql://localhost:3306/web_design
+    url: jdbc:mysql://localhost:3306/web_design?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai
     username: root
     password: 200034
 

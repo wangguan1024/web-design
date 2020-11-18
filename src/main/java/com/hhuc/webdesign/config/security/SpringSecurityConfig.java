@@ -49,11 +49,10 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .authorizeRequests()
                     .antMatchers("/test/user").hasAnyAuthority("USER")
-                    .antMatchers("/user/*").permitAll()
-                    .anyRequest().anonymous()
-                //检测到未登录的时候设置返回json值
-//                .and()
-//                    .exceptionHandling().authenticationEntryPoint(jsonEntryPoint)
+                    .antMatchers("/my/*").hasAnyAuthority("USER")
+                    .anyRequest().permitAll()
+                .and()
+                    .exceptionHandling().authenticationEntryPoint(jsonEntryPoint)  //检测到未登录的时候设置返回json值
                 .and()
                     .formLogin()
                     .successHandler(loginSuccess)

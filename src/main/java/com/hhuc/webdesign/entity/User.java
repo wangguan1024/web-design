@@ -14,5 +14,8 @@ public class User{
     private Integer id;
     private String userName;
     private String pwd;
-
+    private Integer articleNum;
+    private String signature;
+    private String note;
+    private String nickName;
 }
