@@ -8,7 +8,6 @@ import com.hhuc.webdesign.service.ArticleService;
 import com.hhuc.webdesign.service.RoleService;
 import com.hhuc.webdesign.service.UserRoleService;
 import com.hhuc.webdesign.service.UserService;
-import org.json.JSONException;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

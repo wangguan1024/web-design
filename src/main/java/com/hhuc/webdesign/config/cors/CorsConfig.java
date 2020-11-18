@@ -2,32 +2,24 @@ package com.hhuc.webdesign.config.cors;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-import org.springframework.web.filter.CorsFilter;
+import org.springframework.http.HttpHeaders;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
 public class CorsConfig {
     @Bean
-    public CorsFilter corsFilter(){
-        //1.添加CORS配置信息
-        CorsConfiguration config = new CorsConfiguration();
-        //放行哪些原始域
-        config.addAllowedOrigin("*");
-        //是否发送Cookie信息
-        config.setAllowCredentials(true);
-        //放行哪些原始域(请求方式)
-        config.addAllowedMethod("*");
-        //放行哪些原始域(头部信息)
-        config.addAllowedHeader("*");
-        //暴露哪些头部信息（因为跨域访问默认不能获取全部头部信息）
-        config.addExposedHeader("*");
-
-        //2.添加映射路径
-        UrlBasedCorsConfigurationSource configSource = new UrlBasedCorsConfigurationSource();
-        configSource.registerCorsConfiguration("/**", config);
-
-        //3.返回新的CorsFilter.
-        return new CorsFilter(configSource);
+    public WebMvcConfigurer corsConfigurer() {
+        return new WebMvcConfigurer() {
+            @Override
+            public void addCorsMappings(CorsRegistry registry) {
+                registry.addMapping("/goods/**").   //可以被跨域的路径,/**表示无限制,
+                        allowedOrigins("*"). //允许跨域的域名，如果值为*,则表示允许任何域名使用
+                        allowedMethods("*"). //允许任何方法，值可以为： "GET", "POST" ...
+                        allowedHeaders("*"). //允许任何请求头
+                        allowCredentials(true). //允许带cookie信息
+                        exposedHeaders(HttpHeaders.SET_COOKIE).maxAge(3600L); //maxAge(3600):表示3600秒内，不需要再发送预检验请求，是结果可以缓存的时长
+            }
+        };
     }
 }
