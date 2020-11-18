@@ -1,7 +1,9 @@
 package com.hhuc.webdesign;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.hhuc.webdesign.dao.ArticleDao;
 import com.hhuc.webdesign.dao.UserDao;
+import com.hhuc.webdesign.entity.Article;
 import com.hhuc.webdesign.entity.User;
 import com.hhuc.webdesign.entity.UserRole;
 import com.hhuc.webdesign.service.RoleService;
@@ -32,9 +34,17 @@ class WebDesignApplicationTests {
     @Autowired
     RoleService roleService;
 
+    @Autowired
+    ArticleDao articleDao;
+
     @Test
     void contextLoads() throws JSONException {
-        System.out.println(new User());
+        Article article = new Article();
+        article.setTitle("test_title");
+        article.setContent("hello world");
+        article.setOverview("hewo");
+        article.setUserId(1);
+        articleDao.insert(article);
     }
 
     @Test

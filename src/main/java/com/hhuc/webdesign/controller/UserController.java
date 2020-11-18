@@ -5,7 +5,6 @@ import com.hhuc.webdesign.entity.User;
 import com.hhuc.webdesign.service.UserService;
 import com.hhuc.webdesign.util.ReturnPkg;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -16,11 +15,11 @@ public class UserController {
 
     @PostMapping("/register")
     public ReturnPkg register(@RequestBody User user){
-        return userService.Insert(user);
+        return userService.insertNewUser(user);
     }
 
-    @PutMapping("/update")
-    public ReturnPkg update(@RequestBody User user){
-        return userService.Update(user);
+    @PutMapping("/changePwd/oldPwd/{oldPwd}")
+    public ReturnPkg update(@RequestBody User user, @PathVariable String oldPwd){
+        return userService.changePwd(user,oldPwd);
     }
 }
