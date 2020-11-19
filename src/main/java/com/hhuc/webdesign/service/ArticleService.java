@@ -20,6 +20,9 @@ public class ArticleService {
     @Autowired
     UserService userService;
 
+    @Autowired
+    SecurityService securityService;
+
     /**
      * current 当前页码
      * size 每页条数
@@ -43,7 +46,7 @@ public class ArticleService {
     }
 
     public ReturnPkg getMyArticle(int current, int size, String order, boolean desc){
-        String userName = SecurityContextHolder.getContext().getAuthentication().getName();
+        String userName = securityService.getUserNameBySecurity();
 
         Page<Article> pageParam = new Page<>(current,size);
         QueryWrapper<Article> articleQueryWrapper = new QueryWrapper<>();
@@ -69,11 +72,11 @@ public class ArticleService {
     @Transactional
     public ReturnPkg createArticle(Article inputArticle){
         //设置作者名称
-        String userName = SecurityContextHolder.getContext().getAuthentication().getName();
+        String userName = securityService.getUserNameBySecurity();
         inputArticle.setUserName(userName);
         articleMapper.insert(inputArticle);
 
-        User userByUserName = userService.getUserByUserName(userName);
+        User userByUserName = userService.selectUserByUserName(userName);
         userByUserName.setArticleNum(userByUserName.getArticleNum()+1);
         userService.updateUser(userByUserName);
         return ReturnPkg.success();
@@ -91,7 +94,7 @@ public class ArticleService {
     public ReturnPkg deleteArticle(int id){
         articleMapper.deleteById(id);
         String userName = SecurityContextHolder.getContext().getAuthentication().getName();
-        User userByUserName = userService.getUserByUserName(userName);
+        User userByUserName = userService.selectUserByUserName(userName);
         userByUserName.setArticleNum(userByUserName.getArticleNum()-1);
         userService.updateUser(userByUserName);
         return ReturnPkg.success();

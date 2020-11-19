@@ -2,24 +2,26 @@ package com.hhuc.webdesign.config.cors;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpHeaders;
-import org.springframework.web.servlet.config.annotation.CorsRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.filter.CorsFilter;
 
-@Configuration
-public class CorsConfig {
-    @Bean
-    public WebMvcConfigurer corsConfigurer() {
-        return new WebMvcConfigurer() {
-            @Override
-            public void addCorsMappings(CorsRegistry registry) {
-                registry.addMapping("/goods/**").   //可以被跨域的路径,/**表示无限制,
-                        allowedOrigins("*"). //允许跨域的域名，如果值为*,则表示允许任何域名使用
-                        allowedMethods("*"). //允许任何方法，值可以为： "GET", "POST" ...
-                        allowedHeaders("*"). //允许任何请求头
-                        allowCredentials(true). //允许带cookie信息
-                        exposedHeaders(HttpHeaders.SET_COOKIE).maxAge(3600L); //maxAge(3600):表示3600秒内，不需要再发送预检验请求，是结果可以缓存的时长
-            }
-        };
-    }
-}
+//@Configuration
+//public class CorsConfig {
+//    private CorsConfiguration buildConfig() {
+//        CorsConfiguration corsConfiguration = new CorsConfiguration();
+//        corsConfiguration.addAllowedOrigin("*");   //可以通过的ip，*代表所有，可以使用指定的ip，多个的话可以用逗号分隔，默认为*
+//        corsConfiguration.addAllowedHeader("*");  //请求支持的头信息，默认为*，所有
+//        corsConfiguration.addAllowedMethod("*");  //请求方式 默认为*,所有
+//        corsConfiguration.setAllowCredentials(false);  //支持证书，默认为true
+//        return corsConfiguration;
+//    }
+//
+//    // 通过添加 Filter 的方式，配置 CORS 规则，并手动指定对哪些接口有效
+//    @Bean
+//    public CorsFilter corsFilter() {
+//        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+//        source.registerCorsConfiguration("/**", buildConfig());  // CORS 配置对所有接口都有效
+//        return new CorsFilter(source);
+//    }
+//}

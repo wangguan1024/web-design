@@ -3,6 +3,7 @@ package com.hhuc.webdesign.controller;
 
 import com.hhuc.webdesign.entity.PasswordPkg;
 import com.hhuc.webdesign.entity.User;
+import com.hhuc.webdesign.service.SecurityService;
 import com.hhuc.webdesign.service.UserService;
 import com.hhuc.webdesign.util.ReturnPkg;
 import lombok.extern.log4j.Log4j;
@@ -16,9 +17,12 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private SecurityService securityService;
+
     @PostMapping("/register")
     public ReturnPkg register(@RequestBody User user){
-        return userService.insertNewUser(user);
+        return userService.register(user);
     }
 
     @PutMapping("/my/user/changePwd")
@@ -28,14 +32,14 @@ public class UserController {
 
     @GetMapping("/my/user/detail")
     public ReturnPkg getUser(){
-        String userName = SecurityContextHolder.getContext().getAuthentication().getName();
-        return ReturnPkg.success(userService.getUserByUserName(userName));
+        String userName = securityService.getUserNameBySecurity();
+        return ReturnPkg.success(userService.selectUserByUserName(userName));
     }
 
     @PutMapping("/my/user/detail")
     public ReturnPkg updateUser(@RequestBody User user){
-        String userName = SecurityContextHolder.getContext().getAuthentication().getName();
-        Integer id = userService.getUserByUserName(userName).getId();
+        String userName = securityService.getUserNameBySecurity();
+        Integer id = userService.selectUserByUserName(userName).getId();
         user.setId(id);
         return userService.updateUser(user);
     }

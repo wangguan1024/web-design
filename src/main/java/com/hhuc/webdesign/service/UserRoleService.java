@@ -13,10 +13,11 @@ public class UserRoleService {
     @Autowired
     UserRoleMapper userRoleMapper;
 
-    public List<UserRole> getUserRolesByUserID(Integer userId){
-        return userRoleMapper.selectList(new QueryWrapper<UserRole>().eq("user_id", userId));
-    }
-
+    /**
+     *
+     * @param userId
+     * @return 成功更改为1 失败为0
+     */
     public int insertNewUser(Integer userId){
         UserRole userRole = new UserRole();
         userRole.setRoleId(1);

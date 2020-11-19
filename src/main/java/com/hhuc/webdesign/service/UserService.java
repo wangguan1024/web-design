@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class UserService {
@@ -20,24 +21,28 @@ public class UserService {
     UserRoleService userRoleService;
 
     @Autowired
+    SecurityService securityService;
+
+    @Autowired
     PasswordEncoder passwordEncoder;
 
-    public User getUserByUserName(String userName){
+    public User selectUserByUserName(String userName){
         return userMapper.selectOne(new QueryWrapper<User>().eq("user_name",userName));
     }
 
-    public ReturnPkg insertNewUser(User user){
+    @Transactional
+    public ReturnPkg register(User user){
         if(userMapper.selectOne(new QueryWrapper<User>().eq("user_name", user.getUserName()))!=null){
             return ReturnPkg.failed("用户名已被使用");
         }
-
         //改为密文存储，写入数据库
         String password = user.getPwd();
         String encodePassword = passwordEncoder.encode(password);
         user.setPwd(encodePassword);
 
         if(userMapper.insert(user)==1){
-            if(userRoleService.insertNewUser(getUserByUserName(user.getUserName()).getId())==1){
+            Integer userId = selectUserByUserName(user.getUserName()).getId();
+            if(userRoleService.insertNewUser(userId)==1){
                 return ReturnPkg.success();
             }
         }
@@ -45,13 +50,14 @@ public class UserService {
     }
 
     public ReturnPkg changePwd(PasswordPkg passwordPkg) {
-        String userName = SecurityContextHolder.getContext().getAuthentication().getName();
+        String userName = securityService.getUserNameBySecurity();
+
         User thisUser = userMapper.selectOne(new QueryWrapper<User>().eq("user_name", userName));
         String dbPwd = thisUser.getPwd();
 
         String encodeOldPwd = passwordEncoder.encode(passwordPkg.getOldPwd());
         if(!encodeOldPwd.equals(dbPwd)){
-            return ReturnPkg.failed("原密码输入错误");
+            return ReturnPkg.failed("原密码错误");
         }else{
             //改为密文存储，写入数据库
             String newPwd = passwordPkg.getNewPwd();
