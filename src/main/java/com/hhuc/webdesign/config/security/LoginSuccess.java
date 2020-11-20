@@ -23,7 +23,7 @@ public class LoginSuccess implements AuthenticationSuccessHandler {
         Map<String,Object> map = new HashMap<>();
         map.put("userName",userName);
         ReturnPkg returnPkg = ReturnPkg.success(JSONObject.toJSONString(map));
-        httpServletResponse.setContentType("text/json;charset=utf-8");
+        httpServletResponse.setContentType("application/json;charset=utf-8");
         httpServletResponse.getWriter().write(JSONObject.toJSONString(returnPkg));
     }
 }

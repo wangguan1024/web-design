@@ -15,7 +15,6 @@ import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import java.time.Duration;
-import java.util.Arrays;
 import java.util.Collections;
 
 @Configuration
@@ -40,7 +39,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
     private SecurityService securityService;
 
     @Autowired
-    private JsonEntryPoint jsonEntryPoint;
+    private NotLogin notLogin;
 
 
 
@@ -59,7 +58,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
                     .antMatchers("/my/*").hasAnyAuthority("USER")
                     .anyRequest().permitAll()
                 .and()
-                    .exceptionHandling().authenticationEntryPoint(jsonEntryPoint)  //检测到未登录的时候设置返回json值
+                    .exceptionHandling().authenticationEntryPoint(notLogin)  //检测到未登录的时候设置返回json值
                 .and()
                     .formLogin()
                     .successHandler(loginSuccess)
@@ -83,7 +82,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
         configuration.setAllowedOriginPatterns(Collections.singletonList("*"));
         configuration.setAllowedMethods(Collections.singletonList("*"));
         configuration.setAllowedHeaders(Collections.singletonList("*"));
-        configuration.setMaxAge(Duration.ofHours(1));
+//        configuration.setMaxAge(Duration.ofHours(1));
         source.registerCorsConfiguration("/**",configuration);
         return source;
     }

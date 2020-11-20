@@ -1,6 +1,7 @@
 package com.hhuc.webdesign.controller;
 
 
+import com.hhuc.webdesign.util.ReturnPkg;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -15,7 +16,7 @@ public class TestSecurity {
     }
 
     @GetMapping("/user")
-    public String user(){
-        return "user";
+    public ReturnPkg user(){
+        return ReturnPkg.success("has logged");
     }
 }
