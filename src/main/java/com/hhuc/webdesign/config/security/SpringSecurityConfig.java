@@ -10,13 +10,6 @@ import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.CorsConfigurationSource;
-import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-
-import java.time.Duration;
-import java.util.ArrayList;
-import java.util.Collections;
 
 @Configuration
 public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
@@ -55,17 +48,17 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                    .antMatchers("/test/user").hasAnyAuthority("USER")
+//                    .antMatchers("/test/user").hasAnyAuthority("USER")
                     .antMatchers("/my/*").hasAnyAuthority("USER")
                     .anyRequest().permitAll()
-//                .and()
-//                    .exceptionHandling().authenticationEntryPoint(notLogin)  //检测到未登录的时候设置返回json值
+                .and()
+                    .exceptionHandling().authenticationEntryPoint(notLogin)  //检测到未登录的时候设置返回json值
                 .and()
                     .formLogin()
                     .successHandler(loginSuccess)
                     .failureHandler(loginFailed)
                 .and()
-                    .logout().logoutSuccessUrl("/security/logout");
+                    .logout().logoutSuccessHandler(logoutSuccess).deleteCookies("JSESSIONID");
         http
                 .httpBasic()
 //                .and()

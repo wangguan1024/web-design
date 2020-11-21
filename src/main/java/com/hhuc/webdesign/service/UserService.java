@@ -27,7 +27,9 @@ public class UserService {
     PasswordEncoder passwordEncoder;
 
     public User selectUserByUserName(String userName){
-        return userMapper.selectOne(new QueryWrapper<User>().eq("user_name",userName));
+        User user = userMapper.selectOne(new QueryWrapper<User>().eq("user_name",userName));
+        user.setPwd("");
+        return user;
     }
 
     @Transactional
