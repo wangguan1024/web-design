@@ -15,6 +15,7 @@ import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import java.time.Duration;
+import java.util.ArrayList;
 import java.util.Collections;
 
 @Configuration
@@ -67,26 +68,26 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
                     .logout().logoutSuccessUrl("/security/logout");
         http
                 .httpBasic()
-                .and()
-                .cors()
+//                .and()
+//                .cors()
                 .and()
                 .csrf()
                 .disable();
     }
 
-    @Bean
-    CorsConfigurationSource corsConfigurationSource() {
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowCredentials(true);
-//        configuration.setAllowedOriginPatterns(Collections.singletonList("*"));
-        configuration.setAllowedOrigins(Collections.singletonList("http://localhost:8088/"));
-        configuration.setAllowedMethods(Collections.singletonList("*"));
-        configuration.setAllowedHeaders(Collections.singletonList("*"));
-//        configuration.setMaxAge(Duration.ofHours(1));
-        source.registerCorsConfiguration("/**",configuration);
-        return source;
-    }
+//    @Bean
+//    CorsConfigurationSource corsConfigurationSource() {
+//        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+//        CorsConfiguration configuration = new CorsConfiguration();
+//        configuration.setAllowCredentials(true);
+////        configuration.setAllowedOriginPatterns(Collections.singletonList("*"));
+//        configuration.setAllowedOrigins(Collections.singletonList("http://localhost:8088"));
+//        configuration.setAllowedMethods(Collections.singletonList("*"));
+//        configuration.setAllowedHeaders(Collections.singletonList("*"));
+////        configuration.setMaxAge(Duration.ofHours(1));
+//        source.registerCorsConfiguration("/**",configuration);
+//        return source;
+//    }
 
     @Override
     public void configure(WebSecurity web) throws Exception {

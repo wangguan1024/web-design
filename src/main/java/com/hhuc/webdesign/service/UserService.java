@@ -55,8 +55,12 @@ public class UserService {
         User thisUser = userMapper.selectOne(new QueryWrapper<User>().eq("user_name", userName));
         String dbPwd = thisUser.getPwd();
 
-        String encodeOldPwd = passwordEncoder.encode(passwordPkg.getOldPwd());
-        if(!encodeOldPwd.equals(dbPwd)){
+//        String encodeOldPwd = passwordEncoder.encode(passwordPkg.getOldPwd());
+
+        boolean matches = passwordEncoder.matches(passwordPkg.getOldPwd(), dbPwd);
+
+
+        if(!matches){
             return ReturnPkg.failed("原密码错误");
         }else{
             //改为密文存储，写入数据库
