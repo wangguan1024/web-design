@@ -57,8 +57,8 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
                     .antMatchers("/test/user").hasAnyAuthority("USER")
                     .antMatchers("/my/*").hasAnyAuthority("USER")
                     .anyRequest().permitAll()
-                .and()
-                    .exceptionHandling().authenticationEntryPoint(notLogin)  //检测到未登录的时候设置返回json值
+//                .and()
+//                    .exceptionHandling().authenticationEntryPoint(notLogin)  //检测到未登录的时候设置返回json值
                 .and()
                     .formLogin()
                     .successHandler(loginSuccess)
@@ -79,7 +79,8 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowCredentials(true);
-        configuration.setAllowedOriginPatterns(Collections.singletonList("*"));
+//        configuration.setAllowedOriginPatterns(Collections.singletonList("*"));
+        configuration.setAllowedOrigins(Collections.singletonList("http://localhost:8088/"));
         configuration.setAllowedMethods(Collections.singletonList("*"));
         configuration.setAllowedHeaders(Collections.singletonList("*"));
 //        configuration.setMaxAge(Duration.ofHours(1));

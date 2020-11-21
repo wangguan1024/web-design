@@ -32,6 +32,9 @@ public class SecurityService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
         User user = userMapper.selectOne(new QueryWrapper<User>().eq("user_name", userName));
+        if(user==null){
+            throw new UsernameNotFoundException("");
+        }
         Integer userId = user.getId();
 
         List<UserRole> userRoles = userRoleMapper.selectList(new QueryWrapper<UserRole>().eq("user_id", userId));
