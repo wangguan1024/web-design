@@ -84,8 +84,7 @@ public class ArticleService {
 
     @Transactional
     public ReturnPkg updateArticle(Article inputArticle){
-        articleMapper.updateById(inputArticle);
-        return ReturnPkg.success();
+        return ReturnPkg.success(articleMapper.updateById(inputArticle));
     }
 
 

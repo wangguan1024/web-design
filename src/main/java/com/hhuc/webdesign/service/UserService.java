@@ -7,7 +7,6 @@ import com.hhuc.webdesign.mapper.UserMapper;
 import com.hhuc.webdesign.entity.User;
 import com.hhuc.webdesign.util.ReturnPkg;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,7 +27,7 @@ public class UserService {
 
     public User selectUserByUserName(String userName){
         User user = userMapper.selectOne(new QueryWrapper<User>().eq("user_name",userName));
-        user.setPwd("");
+        user.setPwd(null);
         return user;
     }
 

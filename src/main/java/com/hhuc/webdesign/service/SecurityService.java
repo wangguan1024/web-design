@@ -33,7 +33,7 @@ public class SecurityService implements UserDetailsService {
     public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
         User user = userMapper.selectOne(new QueryWrapper<User>().eq("user_name", userName));
         if(user==null){
-            throw new UsernameNotFoundException("");
+            throw new UsernameNotFoundException("用户名不存在");
         }
         Integer userId = user.getId();
 
